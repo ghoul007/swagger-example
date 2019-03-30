@@ -1,0 +1,127 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      description: "this return all users"
+      operationId: "GetAllUsers"
+      parameters: []
+      responses:
+        200:
+          description: "an array of users"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+      x-swagger-router-controller: "GetAllUsers"    
+    post:
+      description: "add user"
+      operationId: "AddUser"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "user"
+          description: "user to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: "#/definitions/User" 
+      x-swagger-router-controller: "AddUser"
+  /users/{id}:
+    get:
+      description: "get one"
+      operationId: "FindUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id of user"
+        required: true
+        type: "string"
+        format: 'string'
+      responses:
+        200:
+          description: OK 
+          schema:
+            $ref: "#/definitions/User"
+          
+      x-swagger-router-controller: "FindUserById"
+    delete:
+      description: "delete a user"
+      operationId: "DeleteUserById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id user"
+        required: true
+        type: "string"
+        format: "string"
+      responses:
+        204:
+          description: "user delete" 
+      x-swagger-router-controller: "DeleteUserById"        
+    put:
+      description: "update a user"
+      operationId: "UpdateUserById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id user"
+        required: true
+        type: "string"
+      - name: "update_user"
+        in: "body"
+        description: "id user"
+        required: true
+        schema:
+            $ref: "#/definitions/User"       
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "not found" 
+      x-swagger-router-controller: "UpdateUserById"       
+      
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  User:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "name of user"
+      email:
+        type: "string"
+        description: "string of user"   
+      password:
+        type: "string"
+        description: "password of user"  
+        
+        
