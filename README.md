@@ -1,10 +1,10 @@
 # example project for Swagger
 
-##start project
+##start project: 
 swagger project start
 
-##edit project
+##edit project: 
 swagger project edit
 
-##mock
+##mock: 
 swagger project start -m
